@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    
+    <changeSet id="post_changed" author="IvanovRVL" runOnChange="true" >
+		<comment>Execute when changed</comment>
+<!--
+<sqlFile path="db\functions\cancel_task.sql" relativeToChangelogFile="true" splitStatements="false" encoding="utf8" />
+<sqlFile path="db\functions\complete_task.sql" relativeToChangelogFile="true" splitStatements="false" encoding="utf8" />
+<sqlFile path="db\functions\complete_task_request.sql" relativeToChangelogFile="true" splitStatements="false" encoding="utf8" />
+-->	
+	</changeSet>
+
+
+    <changeSet id="post_changed_triggers" author="IvanovRVL" runOnChange="true" >
+		<comment>Triggers, tables, views</comment>
+<!--		
+<sqlFile path="db\triggers\task\task_aiud_tr.sql" relativeToChangelogFile="true" splitStatements="true" encoding="utf8" />
+<sqlFile path="db\triggers\task\task_last_report_upd_tr.sql" relativeToChangelogFile="true" splitStatements="true" encoding="utf8" />
+-->
+	</changeSet>
+
+
+<!--	<changeSet id="post_always" author="IvanovRVL" runAlways="true" runOnChange="true" >-->
+<!--		<comment>Execute always</comment>-->
+<!--
+		<sqlFile path="view/v_project_period.sql" relativeToChangelogFile="true" splitStatements="true" encoding="utf8" />
+-->
+<!--	</changeSet>-->
+	
+</databaseChangeLog>
+
