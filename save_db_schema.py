@@ -127,7 +127,7 @@ def main():
     basePath = os.path.dirname(sys.argv[0])
     rootPath = os.path.split(basePath)[0]
 
-    os.chdir(rootPath)
+    #os.chdir(rootPath)
     os.chdir(basePath)
 
     save_db(config['db'])
