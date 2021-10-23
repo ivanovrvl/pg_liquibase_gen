@@ -6,8 +6,11 @@ import psycopg2.extensions
 import codecs
 import xml.etree.ElementTree as etree
 
-with open('config.json', 'r') as f:
-    config = json.load(f)
+script_path = [".."]
+_ = [*map(lambda x: sys.path.append(os.path.abspath(x)), script_path)]
+
+with open('..\\db_config.json', 'r') as f:
+    db_config = json.load(f)
 
 lb_script_file_paths = set()
 lb_script_file = None
@@ -105,17 +108,17 @@ def save_triggers(cur, db_name):
         if fn not in lb_script_file_paths:
             lb_script_file.write(f'<sqlFile path="{fn}" relativeToChangelogFile="true" splitStatements="true" encoding="utf8" />\n')
 
-def save_db(cfg):
+def save_db(cfg, changelog_path:os.path):
     global lb_script_file, lb_script_file_paths
 
-    with codecs.open(os.path.join(cfg['database'], 'changelog_post.xml'), 'r', 'utf-8-sig') as f:
+    with codecs.open(os.path.join(changelog_path, 'changelog.xml'), 'r', 'utf-8-sig') as f:
         xml = etree.parse(f)
         root = xml.getroot()
         for changeSet in root.findall('{http://www.liquibase.org/xml/ns/dbchangelog}changeSet'):
             for sqlFile in changeSet.findall('{http://www.liquibase.org/xml/ns/dbchangelog}sqlFile'):
                 lb_script_file_paths.add(sqlFile.attrib['path'])
 
-    with codecs.open(os.path.join(cfg['database'], 'lb_help_script.txt'), 'w', 'utf-8-sig') as lb_script_file:
+    with codecs.open(os.path.join(changelog_path, 'lb_help_script.txt'), 'w', 'utf-8-sig') as lb_script_file:
         with psycopg2.connect(dbname=cfg['database'], user=cfg['user'], host=cfg['host'], password=cfg['password'], port=cfg.get('port', 5432)) as db:
             with db.cursor() as cur:
                 save_enums(cur, cfg['database'])
@@ -130,7 +133,10 @@ def main():
     #os.chdir(rootPath)
     os.chdir(basePath)
 
-    save_db(config['db'])
+    save_db(db_config, basePath)
+
+    #cfg = global_cfg['DATABASE_TIMESERIES']
+    #save_db(cfg)
 
 if __name__ == '__main__':
     main()
